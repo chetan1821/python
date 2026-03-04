@@ -1,0 +1,3 @@
+Python is easy to learn.
+File handling is important.
+This file contains multiple strings.
