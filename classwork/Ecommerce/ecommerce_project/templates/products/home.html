@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <div class="container">
+        <h1>Welcome to EzyMart</h1>
+        <p>Shop the latest products with amazing prices</p>
+        <a href="{% url 'products:product_list' %}" class="btn btn-light btn-lg">Shop Now</a>
+    </div>
+</div>
+
+<div class="container my-5">
+    <!-- Categories Section -->
+    <div class="mb-5">
+        <h2 class="mb-4">Shop by Category</h2>
+        <div class="row g-4">
+            {% for category in categories %}
+                <div class="col-md-3">
+                    <a href="{{ category.get_absolute_url }}" class="text-decoration-none">
+                        <div class="card border-0 shadow-sm text-center p-4">
+                            {% if category.image %}
+                                <img src="{{ category.image.url }}" class="card-img-top mb-3" style="object-fit: cover; height: 150px;">
+                            {% else %}
+                                <div class="bg-light mb-3 rounded" style="height: 150px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-shopping-bag fa-3x text-muted"></i>
+                                </div>
+                            {% endif %}
+                            <h5 class="card-title">{{ category.name }}</h5>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <!-- Featured Products Section -->
+    {% if featured_products %}
+        <div class="mb-5">
+            <h2 class="mb-4">Featured Products</h2>
+            <div class="row g-4">
+                {% for product in featured_products %}
+                    <div class="col-md-3 col-sm-6">
+                        <div class="product-card card">
+                            <div class="position-relative">
+                                {% if product.images.first %}
+                                    <img src="{{ product.images.first.image.url }}" class="card-img-top product-image" alt="{{ product.name }}">
+                                {% else %}
+                                    <div class="product-image bg-light d-flex align-items-center justify-content-center">
+                                        <i class="fas fa-image fa-3x text-muted"></i>
+                                    </div>
+                                {% endif %}
+                                {% if product.discount_percentage %}
+                                    <span class="discount-badge position-absolute top-0 end-0 m-2">{{ product.discount_percentage }}% OFF</span>
+                                {% endif %}
+                            </div>
+                            <div class="product-info">
+                                <h6 class="product-name">{{ product.name }}</h6>
+                                <div class="rating">
+                                    {% for i in "12345" %}
+                                        {% if forloop.counter <= product.average_rating %}
+                                            <i class="fas fa-star"></i>
+                                        {% else %}
+                                            <i class="far fa-star"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <span>({{ product.review_count }})</span>
+                                </div>
+                                <div class="product-price">
+                                    ₹{{ product.discounted_price }}
+                                    {% if product.discount_price %}
+                                        <span class="product-original-price">₹{{ product.price }}</span>
+                                    {% endif %}
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <a href="{{ product.get_absolute_url }}" class="btn btn-primary btn-sm">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+    
+    <!-- Latest Products Section -->
+    {% if latest_products %}
+        <div class="mb-5">
+            <h2 class="mb-4">Latest Products</h2>
+            <div class="row g-4">
+                {% for product in latest_products %}
+                    <div class="col-md-3 col-sm-6">
+                        <div class="product-card card">
+                            <div class="position-relative">
+                                {% if product.images.first %}
+                                    <img src="{{ product.images.first.image.url }}" class="card-img-top product-image" alt="{{ product.name }}">
+                                {% else %}
+                                    <div class="product-image bg-light d-flex align-items-center justify-content-center">
+                                        <i class="fas fa-image fa-3x text-muted"></i>
+                                    </div>
+                                {% endif %}
+                                {% if product.discount_percentage %}
+                                    <span class="discount-badge position-absolute top-0 end-0 m-2">{{ product.discount_percentage }}% OFF</span>
+                                {% endif %}
+                            </div>
+                            <div class="product-info">
+                                <h6 class="product-name">{{ product.name }}</h6>
+                                <div class="rating">
+                                    {% for i in "12345" %}
+                                        {% if forloop.counter <= product.average_rating %}
+                                            <i class="fas fa-star"></i>
+                                        {% else %}
+                                            <i class="far fa-star"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <span>({{ product.review_count }})</span>
+                                </div>
+                                <div class="product-price">
+                                    ₹{{ product.discounted_price }}
+                                    {% if product.discount_price %}
+                                        <span class="product-original-price">₹{{ product.price }}</span>
+                                    {% endif %}
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <a href="{{ product.get_absolute_url }}" class="btn btn-primary btn-sm">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

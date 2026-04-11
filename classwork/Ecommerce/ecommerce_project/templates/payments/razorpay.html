@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}Razorpay Payment{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow">
+                <div class="card-header bg-light">
+                    <h3 class="mb-0">
+                        <i class="fas fa-credit-card me-2"></i>
+                        Complete Payment
+                    </h3>
+                </div>
+                
+                <div class="card-body p-4">
+                    <!-- Order Summary -->
+                    <div class="mb-4 pb-4 border-bottom">
+                        <h5 class="mb-3">Order Summary</h5>
+                        <div class="row mb-2">
+                            <div class="col-6">
+                                <strong>Order ID:</strong>
+                            </div>
+                            <div class="col-6 text-end">
+                                {{ order.order_number }}
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-6">
+                                <strong>Total Items:</strong>
+                            </div>
+                            <div class="col-6 text-end">
+                                {{ order.items.count }}
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-6">
+                                <strong>Subtotal:</strong>
+                            </div>
+                            <div class="col-6 text-end">
+                                ₹{{ order.total_amount }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <strong>Payment Method:</strong>
+                            </div>
+                            <div class="col-6 text-end">
+                                Razorpay
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Payment Info -->
+                    <div class="alert alert-info mb-4">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Amount to Pay: ₹{{ order.total_amount }}</strong>
+                    </div>
+                    
+                    <!-- Razorpay Payment Form -->
+                    <form id="razorpay-form" action="{% url 'payments:razorpay_callback' %}" method="POST">
+                        {% csrf_token %}
+                        
+                        <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
+                        <input type="hidden" name="razorpay_order_id" id="razorpay_order_id" value="{{ razorpay_order.id }}">
+                        <input type="hidden" name="razorpay_signature" id="razorpay_signature">
+                        
+                        <button type="button" id="pay-btn" class="btn btn-primary btn-lg w-100">
+                            <i class="fas fa-lock me-2"></i>
+                            Pay ₹{{ order.total_amount }} with Razorpay
+                        </button>
+                    </form>
+                    
+                    <!-- Alternative Payment Methods -->
+                    <div class="mt-4 pt-4 border-top">
+                        <p class="text-muted mb-3">
+                            <i class="fas fa-question-circle me-2"></i>
+                            Want to use a different payment method?
+                        </p>
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'orders:checkout' %}?payment_method=cod" class="btn btn-outline-secondary">
+                                <i class="fas fa-money-bill-wave me-2"></i>
+                                Cash on Delivery
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Help Text -->
+                    <div class="alert alert-light mt-4" role="alert">
+                        <small class="text-muted">
+                            <i class="fas fa-shield-alt me-2"></i>
+                            This is a test payment gateway. In production, connect to actual Razorpay API.
+                            <a href="https://razorpay.com/" target="_blank" class="text-decoration-none">Learn more</a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('pay-btn').addEventListener('click', function() {
+        // In a production environment, this would integrate with actual Razorpay API
+        // For now, show a demo message
+        alert('In production, this would open the Razorpay payment gateway.\n\nFor testing:\n1. API keys are needed (RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET)\n2. Integrate with actual Razorpay checkout');
+        
+        // Redirect back to order detail
+        window.location.href = '{% url "orders:order_detail" order.id %}';
+    });
+</script>
+{% endblock %}

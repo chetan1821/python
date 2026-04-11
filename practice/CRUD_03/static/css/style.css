@@ -1,0 +1,14 @@
+.container{
+    text-align: center;
+    border: 1px solid black;
+    height: 300px;
+    width: 300px;
+    
+}
+.box{
+    padding: 20px;
+    font-size: 10px;
+}
+table,th{
+    border: 0.5px solid black;
+}

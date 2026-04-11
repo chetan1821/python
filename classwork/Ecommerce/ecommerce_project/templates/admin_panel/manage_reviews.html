@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Reviews{% endblock %}
+
+{% block content %}
+<div class="container-fluid my-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Manage Reviews</h2>
+                <a href="{% url 'admin_panel:admin_dashboard' %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+    <!-- Filter -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <form method="get" class="d-flex gap-2">
+                        <select name="status" class="form-select">
+                            <option value="">All Reviews</option>
+                            <option value="pending" {% if request.GET.status == 'pending' %}selected{% endif %}>Pending</option>
+                            <option value="approved" {% if request.GET.status == 'approved' %}selected{% endif %}>Approved</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Reviews Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Reviews ({{ total_reviews }})</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Product</th>
+                                <th>Author</th>
+                                <th>Rating</th>
+                                <th>Comment</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for review in reviews %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ review.product.get_absolute_url }}" target="_blank" class="text-decoration-none">
+                                            {{ review.product.name|truncatewords:3 }}
+                                        </a>
+                                    </td>
+                                    <td>{{ review.user.username }}</td>
+                                    <td>
+                                        <div class="rating" style="color: #FFD700;">
+                                            {% for i in "12345" %}
+                                                {% if forloop.counter <= review.rating %}
+                                                    <i class="fas fa-star"></i>
+                                                {% else %}
+                                                    <i class="far fa-star"></i>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <small>{{ review.comment|truncatewords:10 }}</small>
+                                    </td>
+                                    <td>
+                                        {% if review.is_approved %}
+                                            <span class="badge bg-success">Approved</span>
+                                        {% else %}
+                                            <span class="badge bg-warning">Pending</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <small>{{ review.created_at|date:"d M, Y" }}</small>
+                                    </td>
+                                    <td>
+                                        {% if not review.is_approved %}
+                                            <form method="post" class="d-inline">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="review_id" value="{{ review.id }}">
+                                                <button type="submit" name="action" value="approve" class="btn btn-sm btn-success" title="Approve">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                                <button type="submit" name="action" value="reject" class="btn btn-sm btn-danger" title="Reject">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </form>
+                                        {% else %}
+                                            <form method="post" class="d-inline">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="review_id" value="{{ review.id }}">
+                                                <button type="submit" name="action" value="reject" class="btn btn-sm btn-danger" title="Reject">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="7" class="text-center py-4 text-muted">No reviews found.</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

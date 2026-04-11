@@ -1,0 +1,28 @@
+{%extends 'base.html'%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    {%block body%}
+    <h1>register Form</h1>
+    <form action="" method="post">
+        {%csrf_token%}
+
+        <input type="text" name="name" placeholder="Enter name">
+        <input type="text" name ="email" placeholder="Enter Email">
+        <input type="text" name="age" placeholder="Enter age">
+        <input type="submit">
+        {{msg}}
+    </form>
+{%endblock%}
+ 
+
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Home Page
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Home Page</h1>
+
+    <div class="row">
+
+        <!-- Card 1 -->
+        <div class="col-md-3">
+            <div class="card">
+                <img src="{% static 'images/gateway3.jpg' %}" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Gateway of India</h5>
+                    <p class="card-text">Famous monument in Mumbai.</p>
+                    <a href="#" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="col-md-3">
+            <div class="card">
+                <img src="{% static 'images/Tajmahal.jpeg' %}" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Taj Mahal</h5>
+                    <p class="card-text">Symbol of love in India.</p>
+                    <a href="#" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="col-md-3">
+            <div class="card">
+                <img src="{% static 'images/Alleppey.jpeg' %}" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Alleppey</h5>
+                    <p class="card-text">Natural place.</p>
+                    <a href="#" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="col-md-3">
+            <div class="card">
+                <img src="{% static 'images/Hawamahal.jpg' %}" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Hawa Mahal</h5>
+                    <p class="card-text">Famous palace in Jaipur.</p>
+                    <a href="#" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Page</title>
+
+    <!-- ✅ Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <!-- ✅ Form Card -->
+    <div class="card shadow p-4 mb-5">
+        <h3 class="mb-4 text-center">{% if edit %}Edit Product{% else %}Add Product{% endif %}</h3>
+
+        <form action="{% if edit %}{% url 'update' %}{% else %}{% url 'addproduct' %}{% endif %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {% if edit %}
+            <div class="mb-3">
+                <input type="hidden" class="form-control" placeholder="Enter ID" name="id"
+                        value="{{edit.id}}">
+            </div>
+            {% endif %}
+
+            <div class="mb-3">
+                <label class="form-label">Category</label>
+                <select name="category" class="form-select">
+                    {% for i in category %}
+                        <option value="{{i.id}}"
+                            {% if edit.category.id == i.id %} selected {% endif %}>
+                            {{i.name}}
+                        </option>
+                    {% endfor %}
+</select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Product Name</label>
+                <input type="text" class="form-control" placeholder="Enter Product Name" name="name" value="{{edit.name}}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Price</label>
+                <input type="text" class="form-control" placeholder="Enter Product Price" name="price" value="{{edit.price}}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Quantity</label>
+                <input type="text" class="form-control" placeholder="Enter Product Qty" name="qty" value="{{edit.qty}}">
+            </div>
+
+            <!-- ✅ Image Upload -->
+                <div class="col-md-4 mb-3">
+                    <label>Product Image</label>
+                    <input type="file" name="image" class="form-control" onchange="previewImage(event)">
+                </div>
+
+                <!-- ✅ Image Preview -->
+                <div class="col-12 text-center">
+                    <img id="preview" src="" class="img-thumbnail mt-2" width="150" style="display:none;">
+                </div>
+
+            <div class="text-center">
+                <input type="submit" value="{% if edit %}Update Product{% else %}Add Product{% endif %}" class="btn btn-primary px-4">
+            </div>
+        </form>
+    </div>
+
+    <!-- ✅ Table Card -->
+    <div class="card shadow p-4">
+        <h3 class="mb-4 text-center">Product List</h3>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover text-center align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Id</th>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                        <th>Category</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                        
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for product in product %}
+                    <tr>
+                        <td>{{product.id}}</td>
+                        <td>
+                            {% if product.image %}
+                                <img src="{{product.image.url}}" width="60" height="60" class="rounded">
+                            {% else %}
+                                No Image
+                            {% endif %}
+                        </td>
+                        <td>{{product.name}}</td>
+                        <td>₹ {{product.price}}</td>
+                        <td>{{product.qty}}</td>
+                        <td>{{product.category}}</td>
+                        <td class="fw-bold text-success">₹ {{product.total}}</td>
+                        <td>
+                            <a href="{%url 'update'%}?uid={{product.id}}" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="{%url 'delete'%}?did={{product.id}}" class="btn btn-danger btn-sm"
+                               onclick="return confirm('Are you sure?')">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+</div>
+
+</body>
+<script>
+function previewImage(event) {
+    let reader = new FileReader();
+    reader.onload = function(){
+        let output = document.getElementById('preview');
+        output.src = reader.result;
+        output.style.display = "block";
+    }
+    reader.readAsDataURL(event.target.files[0]);
+}
+</script>
+</html>

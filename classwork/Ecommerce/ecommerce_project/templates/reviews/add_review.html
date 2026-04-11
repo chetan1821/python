@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block title %}Review {{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow">
+                <div class="card-header bg-light">
+                    <h3 class="mb-0">
+                        {% if is_edit %}
+                            Edit Review
+                        {% else %}
+                            Write a Review
+                        {% endif %}
+                    </h3>
+                </div>
+                
+                <div class="card-body p-4">
+                    <!-- Product Info -->
+                    <div class="mb-4 pb-4 border-bottom">
+                        <div class="row align-items-center">
+                            <div class="col-md-2">
+                                {% if product.images.first %}
+                                    <img src="{{ product.images.first.image.url }}" class="img-fluid rounded" alt="{{ product.name }}">
+                                {% else %}
+                                    <div class="bg-light rounded text-center p-3">
+                                        <i class="fas fa-image fa-2x text-muted"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-10">
+                                <h5><a href="{{ product.get_absolute_url }}" class="text-decoration-none">{{ product.name }}</a></h5>
+                                <p class="text-muted mb-0">₹{{ product.discounted_price }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Review Form -->
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <!-- Rating -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">{{ form.rating.label }}</label>
+                            <div id="rating-input" class="d-flex gap-2">
+                                {% for radio in form.rating %}
+                                    <label class="form-check cursor-pointer">
+                                        {{ radio.tag }}
+                                        <i class="far fa-star fa-2x" style="color: #FFD700; cursor: pointer;"></i>
+                                    </label>
+                                {% endfor %}
+                            </div>
+                            {% if form.rating.errors %}
+                                <div class="text-danger small mt-2">{{ form.rating.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Review Comment -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">{{ form.comment.label }}</label>
+                            {{ form.comment }}
+                            {% if form.comment.errors %}
+                                <div class="text-danger small mt-2">{{ form.comment.errors }}</div>
+                            {% endif %}
+                            <small class="text-muted">Share your detailed thoughts about this product (minimum 10 characters)</small>
+                        </div>
+                        
+                        <!-- Submit Buttons -->
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                {% if is_edit %}
+                                    <i class="fas fa-check me-2"></i>Update Review
+                                {% else %}
+                                    <i class="fas fa-plus me-2"></i>Submit Review
+                                {% endif %}
+                            </button>
+                            <a href="{{ product.get_absolute_url }}" class="btn btn-secondary btn-lg">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </a>
+                        </div>
+                    </form>
+                    
+                    <!-- Info Message -->
+                    <div class="alert alert-info mt-4" role="alert">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Your review will be reviewed by our team before being published.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #rating-input .form-check {
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    #rating-input .form-check:hover {
+        transform: scale(1.2);
+    }
+    
+    #rating-input input[type="radio"]:checked + i {
+        color: #FFC107 !important;
+        font-weight: bold;
+    }
+    
+    textarea.form-control {
+        min-height: 120px;
+        resize: vertical;
+    }
+</style>
+
+<script>
+    // Enhanced rating input
+    document.querySelectorAll('#rating-input .form-check i').forEach(star => {
+        star.addEventListener('click', function() {
+            const radio = this.previousElementSibling;
+            radio.checked = true;
+            radio.dispatchEvent(new Event('change'));
+        });
+        
+        star.addEventListener('mouseenter', function() {
+            const radio = this.previousElementSibling;
+            const value = radio.value;
+            document.querySelectorAll('#rating-input input[type="radio"]').forEach((r, idx) => {
+                if (idx < value) {
+                    r.nextElementSibling.style.color = '#FFC107';
+                } else {
+                    r.nextElementSibling.style.color = '#ccc';
+                }
+            });
+        });
+    });
+    
+    document.getElementById('rating-input').addEventListener('mouseleave', function() {
+        const checked = document.querySelector('#rating-input input[type="radio"]:checked');
+        if (checked) {
+            const value = checked.value;
+            document.querySelectorAll('#rating-input input[type="radio"]').forEach((r, idx) => {
+                if (idx < value) {
+                    r.nextElementSibling.style.color = '#FFC107';
+                } else {
+                    r.nextElementSibling.style.color = '#ccc';
+                }
+            });
+        } else {
+            document.querySelectorAll('#rating-input i').forEach(i => i.style.color = '#ccc');
+        }
+    });
+</script>
+{% endblock %}

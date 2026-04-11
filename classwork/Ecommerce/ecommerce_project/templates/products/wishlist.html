@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ wishlists }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="mb-4">My Wishlist</h2>
+    
+    {% if wishlist_items %}
+        <div class="row g-4">
+            {% for item in wishlist_items %}
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-card card">
+                        <div class="position-relative">
+                            {% if item.product.images.first %}
+                                <img src="{{ item.product.images.first.image.url }}" class="card-img-top product-image" alt="{{ item.product.name }}">
+                            {% else %}
+                                <div class="product-image bg-light d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-image fa-3x text-muted"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="product-info">
+                            <h6 class="product-name">{{ item.product.name }}</h6>
+                            <div class="product-price">₹{{ item.product.discounted_price }}</div>
+                            <div class="d-grid gap-2">
+                                <form method="post" action="{% url 'orders:add_to_cart' item.product.id %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button type="submit" class="btn btn-primary btn-sm w-100">Add to Cart</button>
+                                </form>
+                                <a href="{% url 'products:remove_from_wishlist' item.product.id %}" class="btn btn-outline-danger btn-sm">Remove</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center py-5">
+            <i class="fas fa-heart fa-3x mb-3"></i>
+            <p>Your wishlist is empty!</p>
+            <a href="{% url 'products:product_list' %}" class="btn btn-primary mt-3">Browse Products</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Orders{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <h2 class="mb-4">Manage Orders</h2>
+    
+    <!-- Filter -->
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+            <form method="get" class="d-flex gap-2">
+                <select class="form-select w-auto" name="status">
+                    <option value="">All Statuses</option>
+                    {% for code, name in statuses %}
+                        <option value="{{ code }}" {% if status_filter == code %}selected{% endif %}>{{ name }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-primary">Filter</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Orders Table -->
+    <div class="card border-0 shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Order #</th>
+                        <th>Customer</th>
+                        <th>Email</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <td><strong>{{ order.order_number }}</strong></td>
+                            <td>{{ order.first_name }} {{ order.last_name }}</td>
+                            <td>{{ order.email }}</td>
+                            <td>₹{{ order.total_amount }}</td>
+                            <td>
+                                <span class="badge bg-{% if order.status == 'pending' %}warning{% elif order.status == 'delivered' %}success{% else %}info{% endif %}">
+                                    {{ order.get_status_display }}
+                                </span>
+                            </td>
+                            <td>{{ order.created_at|date:"d M, Y" }}</td>
+                            <td>
+                                <a href="{% url 'admin_panel:order_detail_admin' order.id %}" class="btn btn-sm btn-primary">View</a>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center py-4 text-muted">No orders found.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

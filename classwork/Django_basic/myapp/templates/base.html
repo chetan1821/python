@@ -1,0 +1,22 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+
+<body>
+   <a href="{% url 'index' %}">index</a> |
+   <a href="{% url 'about' %}">contact</a> |
+   <a href="{% url 'contact' %}">about</a>
+   
+</body>
+{%block body%}
+<!-- <img src="static/image/m5.jpg" alt="project"> -->
+{%endblock%}
+
+</html>

@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="card shadow-lg border-0 rounded-4">
+
+                <!-- Header -->
+                <div class="card-header bg-success text-white text-center rounded-top-4">
+                    <h3 class="mb-0">Add New Product</h3>
+                </div>
+
+                <!-- Body -->
+                <div class="card-body p-4">
+
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="row">
+
+                            <!-- Product Name -->
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Product Name</label>
+                                <input type="text" class="form-control" name="name" placeholder="Enter product name" required>
+                            </div>
+
+                            <!-- Category -->
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Category</label>
+                                <select class="form-select" name="category" required>
+                                    <option value="">Select Category</option>
+                                    <option>Electronics</option>
+                                    <option>Clothing</option>
+                                    <option>Books</option>
+                                    <option>Accessories</option>
+                                </select>
+                            </div>
+
+                            <!-- Price -->
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Price (₹)</label>
+                                <input type="number" class="form-control" name="price" placeholder="Enter price" required>
+                            </div>
+
+                            <!-- Quantity -->
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Stock Quantity</label>
+                                <input type="number" class="form-control" name="quantity" placeholder="Enter stock" required>
+                            </div>
+
+                            <!-- Image Upload -->
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">Product Image</label>
+                                <input type="file" class="form-control" name="image" id="imageInput" accept="image/*">
+                            </div>
+
+                            <!-- Image Preview -->
+                            <div class="col-md-12 text-center mb-3">
+                                <img id="preview" src="#" alt="Preview" 
+                                     style="max-height:150px; display:none; border-radius:10px;">
+                            </div>
+
+                            <!-- Description -->
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control" rows="3" name="description" placeholder="Enter product description"></textarea>
+                            </div>
+
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid mt-3">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                Add Product
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- Image Preview Script -->
+<script>
+document.getElementById("imageInput").onchange = function(evt) {
+    let [file] = this.files;
+    if (file) {
+        let preview = document.getElementById("preview");
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = "block";
+    }
+};
+</script>
+
+{% endblock %}

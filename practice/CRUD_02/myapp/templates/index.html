@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Product Admin Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        background-color: #121212;
+        color: #e4e6eb;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        height: 100vh;
+        background: #1f1f2e;
+        padding: 20px;
+      }
+
+      .sidebar h4 {
+        color: #fff;
+        margin-bottom: 30px;
+      }
+
+      .sidebar a {
+        display: block;
+        color: #bbb;
+        padding: 10px;
+        border-radius: 8px;
+        text-decoration: none;
+        margin-bottom: 10px;
+      }
+
+      .sidebar a:hover {
+        background: #34344a;
+        color: white;
+      }
+
+      /* Content */
+      .content {
+        padding: 20px;
+      }
+
+      .card {
+        background: #1f1f2e;
+        border-radius: 15px;
+        border: none;
+      }
+
+      .form-control {
+        background: #2c2c3e;
+        border: none;
+        color: white;
+        border-radius: 10px;
+      }
+
+      .form-control::placeholder {
+        color: #aaa;
+      }
+
+      .btn-custom {
+        border-radius: 20px;
+        font-size: 13px;
+      }
+
+      .table {
+        color: #ddd;
+      }
+
+      .table thead {
+        background: #34344a;
+      }
+
+      .table tbody tr:hover {
+        background: #2a2a3d;
+      }
+
+      .badge {
+        font-size: 12px;
+      }
+
+
+.product-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 2px solid #444;
+    transition: 0.3s;
+}
+
+.product-img:hover {
+    transform: scale(1.1);
+    border-color: #0d6efd;
+}
+
+    </style>
+  </head>
+
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- MAIN CONTENT -->
+        <div class="col-md-10 content">
+          <div class="row g-4">
+            <!-- LEFT: PRODUCT FORM -->
+            <div class="col-md-4">
+              <div class="card p-4 shadow">
+                <h5 class="mb-3">Product Form</h5>
+
+                <form action="" method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="mb-3">
+                    <label>Product Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Enter product name"
+                      name="name"
+                      value="{{uproducts.name}}"
+                    />
+                  </div>
+
+                  <div class="mb-3">
+                    <label>Price</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="Enter price"
+                      name="price"
+                      value="{{uproducts.price}}"
+                    />
+                  </div>
+
+                  <div class="mb-3">
+                    <label>Category</label>
+                    <select class="form-control" name="category">
+                     <option value="Electronics" {% if uproducts.category == "Electronics" %}selected{% endif %}>
+  Electronics
+</option>
+
+<option value="Accessories" {% if uproducts.category == "Accessories" %}selected{% endif %}>
+  Accessories
+</option>
+
+<option value="Clothing" {% if uproducts.category == "Clothing" %}selected{% endif %}>
+  Clothing
+</option>
+
+<option value="Furniture" {% if uproducts.category == "Furniture" %}selected{% endif %}>
+  Furniture
+</option>
+
+<option value="Books" {% if uproducts.category == "Books" %}selected{% endif %}>
+  Books
+</option> 
+                    </select>
+                  </div>
+
+                  <div class="mb-3">
+                    <label>Stock</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="Enter stock quantity"
+                      name="stock"
+                      value="{{uproducts.stock}}"
+                    />
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Photo</label>
+                    <input type="file" class="form-control" name="file" />
+                  </div>
+
+                  <button
+                    class="btn btn-success btn-custom w-100"
+                    type="submit"
+                  >
+                    Add Product
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <!-- RIGHT: PRODUCT TABLE -->
+            <div class="col-md-8">
+              <div class="card p-4 shadow">
+                <h5 class="mb-3">Product List</h5>
+
+                <table class="table table-hover text-center align-middle">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Name</th>
+                      <th>Price</th>
+                      <th>Category</th>
+                      <th>Stock</th>
+                      <th>Total Amt</th>
+                      <th>Product Image</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                      <tbody>
+{% for products in products %}
+<tr>
+
+<form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+<input type="hidden" name="id" value="{{ products.id }}">
+
+<td>{{ forloop.counter }}</td>
+
+<!-- NAME -->
+<td>
+{% if products.id == eid %}
+  <input type="text" name="name" value="{{ products.name }}" class="form-control" required>
+{% else %}
+  {{ products.name }}
+{% endif %}
+</td>
+
+<!-- PRICE -->
+<td>
+{% if products.id == eid %}
+  <input type="number" name="price" value="{{ products.price }}" class="form-control" required>
+{% else %}
+  {{ products.price }}
+{% endif %}
+</td>
+
+<!-- CATEGORY (🔥 FIXED) -->
+<td>
+{% if products.id == eid %}
+  <select name="category" class="form-control" required>
+    <option value="Electronics" {% if products.category == "Electronics" %}selected{% endif %}>Electronics</option>
+    <option value="Accessories" {% if products.category == "Accessories" %}selected{% endif %}>Accessories</option>
+    <option value="Clothing" {% if products.category == "Clothing" %}selected{% endif %}>Clothing</option>
+    <option value="Furniture" {% if products.category == "Furniture" %}selected{% endif %}>Furniture</option>
+    <option value="Books" {% if products.category == "Books" %}selected{% endif %}>Books</option>
+  </select>
+{% else %}
+  <span class="badge bg-primary">{{ products.category }}</span>
+{% endif %}
+</td>
+
+<!-- STOCK -->
+<td>
+{% if products.id == eid %}
+  <input type="number" name="stock" value="{{ products.stock }}" class="form-control" required>
+{% else %}
+  {{ products.stock }}
+{% endif %}
+</td>
+
+<td>{{ products.total_value }}</td>
+
+<td>
+  {% if products.id == eid %}
+  <img src="media/{{products.image}}" class="product-img mb-2">
+  <input type="file" class="form-control" name="file">
+{% else %}
+  <img src="media/{{products.image}}" class="product-img">
+{% endif %}
+</td>
+
+<!-- ACTION -->
+<td>
+
+{% if products.id == eid %}
+  <!-- SAVE -->
+  <button type="submit" class="btn btn-success btn-sm">💾</button>
+
+  <!-- CANCEL -->
+  <a href="/" class="btn btn-secondary btn-sm">Cancel</a>
+
+{% else %}
+  <!-- EDIT -->
+  <a href="?eid={{ products.id }}" class="btn btn-warning btn-sm">
+    <i class="bi bi-pencil"></i>
+  </a>
+
+  <!-- DELETE -->
+  <a href="{% url 'delete' %}?did={{ products.id }}" class="btn btn-danger btn-sm">
+    <i class="bi bi-trash"></i>
+  </a>
+{% endif %}
+
+</td>
+
+</form>
+</tr>
+{% endfor %}
+</tbody>
+
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,173 @@
+/* Custom CSS Styling for EzyMart eCommerce Platform */
+
+/* Additional utility classes can be added here */
+
+/* Smooth transitions */
+* {
+    transition: all 0.3s ease;
+}
+
+/* Disable transitions for hover effects */
+.btn:not(:hover),
+.card:not(:hover) {
+    transition: none;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #FF9900;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #E68A00;
+}
+
+/* Loading spinner */
+.spinner-custom {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #FF9900;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Product grid responsive */
+@media (max-width: 768px) {
+    .product-card {
+        margin-bottom: 20px;
+    }
+    
+    .hero h1 {
+        font-size: 2rem;
+    }
+}
+
+/* Sticky footer */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.page-container {
+    flex: 1;
+}
+
+/* Animation for alerts */
+.alert {
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Button hover effects */
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Card hover effects */
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+/* Form focus styles */
+.form-control:focus,
+.form-select:focus {
+    border-color: #FF9900;
+    box-shadow: 0 0 0 0.2rem rgba(255, 153, 0, 0.25);
+}
+
+/* Badge styling */
+.badge {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+}
+
+/* Modal styling */
+.modal-content {
+    border: none;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #FF9900 0%, #146EB4 100%);
+    color: white;
+    border: none;
+}
+
+/* Tooltip styling */
+.tooltip-inner {
+    background-color: #FF9900;
+}
+
+.bs-tooltip-top .tooltip-arrow::before,
+.bs-tooltip-bottom .tooltip-arrow::before {
+    border-top-color: #FF9900;
+}
+
+/* Rating stars */
+.rating i {
+    margin-right: 2px;
+}
+
+.rating .fa-star {
+    color: #FBBF24;
+}
+
+.rating .fa-star-half-alt {
+    color: #FBBF24;
+}
+
+.rating .fa-star-o {
+    color: #D1D5DB;
+}
+
+/* Product price styling */
+.product-price {
+    font-size: 1.3rem;
+    color: #FF9900;
+    font-weight: 700;
+}
+
+.product-original-price {
+    font-size: 0.9rem;
+    color: #9CA3AF;
+    text-decoration: line-through;
+    margin-right: 10px;
+}
+
+/* Discount badge */
+.discount-badge {
+    background-color: #DC3545;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}

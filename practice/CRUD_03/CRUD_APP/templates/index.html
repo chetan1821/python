@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD APP</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="container">
+            <div class="box">
+                <label>Name:</label>
+                <input type="text" name="name" placeholder="Enter name " value="{{upeople.name}}">
+            </div>
+            <div class="box">
+                <label>Age:</label>
+                <input type="text" name="age" placeholder="Enter Age " value="{{upeople.age}}">
+            </div>
+            <div class="box">
+                <label>Phone:</label>
+                <input type="text" name="phone" placeholder="Enter phone " value="{{upeople.phone}}">
+            </div>
+            <div class="box">
+                    <label>Profile:</label>
+                    <input type="file"name="file" />
+                  </div>
+            <div class="box">
+                <input type="submit" value="Submit">
+            </div>
+        </div>
+    </form>
+
+    <table>
+        <thead>
+            <th>SR NO</th>
+            <th>NAME</th>
+            <th>AGE</th>
+            <th>PHONE</th>
+            <th>Image</th>
+            <th>ACTION</th>
+        </thead>
+        <tbody>
+            {% for people in peoples %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{people.name}}</td>
+                <td>{{people.age}}</td>
+                <td>{{people.phone}}</td>
+                <td><img src="media/{{people.image}}" alt="" height="100px" width="100px"></td>
+                <td>
+                    <a href="{% url 'update' %}?uid={{people.id}}">Update  |   </a>
+                    <a href="{% url 'delete' %}?did={{people.id}}">Delete</a>
+                </td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+        
+    </table>
+</body>
+</html>

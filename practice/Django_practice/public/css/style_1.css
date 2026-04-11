@@ -1,0 +1,22 @@
+ body {
+    font-family: Arial;
+    background-color: #f4f4f4;
+}
+
+.nav {
+    background: black;
+    padding: 10px;
+}
+
+.nav a {
+    color: white;
+    margin-right: 15px;
+    text-decoration: none;
+}
+
+.nav a:hover {
+    color: yellow;
+}
+/* img{
+    height: 300px;
+} */ 

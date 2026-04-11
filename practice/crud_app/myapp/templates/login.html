@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+
+    <div class="card login-card shadow-lg border-0 p-4">
+
+        <!-- Title -->
+        <h3 class="text-center mb-3 fw-bold text-primary">Welcome Back 👋</h3>
+        <p class="text-center text-muted mb-4">Login to continue</p>
+
+        <!-- Error Message -->
+        {% if error %}
+        <div class="alert alert-danger text-center py-2">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <!-- Form -->
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- Email -->
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control input-custom" id="email" name="email" placeholder="name@example.com" required>
+                <label for="email">Email address</label>
+            </div>
+
+            <!-- Password -->
+            <div class="form-floating mb-3 position-relative">
+                <input type="password" class="form-control input-custom" id="password" name="password" placeholder="Password" required>
+                <label for="password">Password</label>
+
+                <!-- Show/Hide -->
+                <span onclick="togglePassword()" class="toggle-icon">
+                    👁️
+                </span>
+            </div>
+
+            <!-- Remember + Forgot -->
+            <div class="d-flex justify-content-between align-items-center mb-3 small">
+                <div>
+                    <input type="checkbox" id="remember">
+                    <label for="remember"> Remember me</label>
+                </div>
+                <a href="#" class="text-decoration-none">Forgot Password?</a>
+            </div>
+
+            <!-- Button -->
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary btn-lg btn-login">
+                    Login
+                </button>
+            </div>
+
+        </form>
+
+        <!-- Register -->
+        <p class="text-center mt-4 mb-0">
+            Don’t have an account? 
+            <a href="{% url 'index' %}" class="fw-bold text-primary">Register</a>
+        </p>
+
+    </div>
+
+</div>
+
+<style>
+/* Card Styling */
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    border-radius: 20px;
+}
+
+/* Input Styling */
+.input-custom {
+    border-radius: 10px;
+}
+
+/* Button Hover */
+.btn-login {
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+/* Toggle Icon */
+.toggle-icon {
+    position: absolute;
+    right: 15px;
+    top: 18px;
+    cursor: pointer;
+}
+
+/* Focus Effect */
+.form-control:focus {
+    box-shadow: 0 0 5px rgba(13,110,253,0.5);
+}
+</style>
+
+<!-- JS -->
+<script>
+function togglePassword() {
+    let input = document.getElementById("password");
+    input.type = input.type === "password" ? "text" : "password";
+}
+</script>
+
+{% endblock %}

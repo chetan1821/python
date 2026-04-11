@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+    
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 500px; border-radius: 15px;">
+        
+        <h3 class="text-center mb-4 text-primary">Student Registration</h3>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- Full Name -->
+            <div class="mb-3">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-control" name="name" placeholder="Enter your name" required>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+                <label class="form-label">Email address</label>
+                <input type="email" class="form-control" name="email" placeholder="Enter email" required>
+            </div>
+
+            <!-- Phone -->
+            <div class="mb-3">
+                <label class="form-label">Phone Number</label>
+                <input type="tel" class="form-control" name="phone" placeholder="Enter phone number" required>
+            </div>
+
+            <!-- Course -->
+            <div class="mb-3">
+                <label class="form-label">Course</label>
+                <select class="form-select" name="course" required>
+                    <option value="">Select Course</option>
+                    <option>BCA</option>
+                    <option>BBA</option>
+                    <option>BSc IT</option>
+                    <option>MCA</option>
+                </select>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3 position-relative">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-control" name="password" id="password" placeholder="Enter password" required>
+                <span onclick="togglePassword()" 
+                      style="position:absolute; right:15px; top:38px; cursor:pointer;">
+                      👁️
+                </span>
+            </div>
+
+            <!-- Submit -->
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Register</button>
+            </div>
+            <p class="text-center mt-3">
+            Do have an account? 
+            <a href="{% url 'login'%}" class="text-primary fw-bold">Login</a>
+        </p>
+
+        </form>
+    </div>
+
+</div>
+
+<!-- Password Toggle Script -->
+<script>
+function togglePassword() {
+    var input = document.getElementById("password");
+    if (input.type === "password") {
+        input.type = "text";
+    } else {
+        input.type = "password";
+    }
+}
+</script>
+
+{% endblock %}

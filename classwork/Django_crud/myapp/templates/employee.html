@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Employee Panel
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+
+    <!-- Form -->
+    <div class="col-lg-4 mb-4">
+        <div class="card shadow">
+            <div class="card-body">
+                <h5 class="text-primary mb-3">Add Employee</h5>
+
+                <form action="" method="POST">
+                    {% csrf_token %}
+
+                    <input type="text" name="name" placeholder="Employee Name" class="form-control mb-2" required>
+                    <input type="email" name="email" placeholder="Email" class="form-control mb-2" required>
+                    <input type="text" name="designation" placeholder="Designation" class="form-control mb-2" required>
+                    <input type="number" name="salary" placeholder="Salary" class="form-control mb-2" required>
+
+                    <select name="department" class="form-control mb-2" required>
+                        <option value="">Select Department</option>
+                        <option>HR</option>
+                        <option>IT</option>
+                        <option>Sales</option>
+                    </select>
+
+                    <button type="submit" class="btn btn-success w-100">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="col-lg-8">
+        <div class="card shadow">
+            <div class="card-body">
+
+                <h5 class="mb-3">Employee List</h5>
+
+                <div class="table-responsive">
+                    <table class="table table-hover text-center">
+
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Salary</th>
+                                <th>Designation</th>
+                                <th>Department</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {%for i in emp%}
+                            <tr>
+                                <td>{{i.id}}</td>
+                                <td>{{i.name}}</td>
+                                <td>{{i.email}}</td>
+                                <td>{{i.designation}}</td>
+                                <td>{{i.salary}}</td>
+                                <td>{{i.department}}</td>
+                                <td>
+                                    <a href="{%url 'del_emp'%}?dle={{i.id}}" class="btn btn-danger btn-sm">Delete</a>
+                                    <a href="#" class="btn btn-primary btn-sm">Update</a>
+                                </td>
+                            </tr>
+                            {%endfor%}
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
