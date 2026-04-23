@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
+</head>
+<script>
+
+    // const test=()=>{
+    //     var uname =$('#uname').val()
+
+    //     $.get('test',{uname},function(rt){
+    //         alert(rt)
+    //     })
+    // }
+
+    const search=(q)=>{
+        $.get("search",{q},function(rt){
+            $('#dsearch').html(rt)
+        })
+    }
+    
+    
+</script>
+<body>
+   <input type="text" id="uname" placeholder="Enter name">
+   <input type="submit" onclick="test()">
+
+<br>
+<hr>
+<br>
+<input type="text" name="search" id="search" onkeyup="search(value)">
+<div id="dsearch"></div>
+<br>
+<hr>
+<br>
+<select name="country" id="country" onchange="states(value)">
+    </select>
+
+    <select name="state" id="state">
+        <option value="0">---select state---</option>
+    </select>
+
+
+    <select name="city" id="city">
+        <option value="0">---select city---</option>
+    </select>
+</select>
+</body>
+</html>

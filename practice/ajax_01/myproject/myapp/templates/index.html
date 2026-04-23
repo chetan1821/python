@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery (kept your version as requested) -->
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js"
+    integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function(){
+           countries()
+        })
+
+        const test = ()=>{
+            var uname=$('#uname').val()
+            $.get("test",{uname},function(rt){
+                 $("#tdata").html(rt)
+            })
+        }
+
+        const search = (p)=>{
+            $.get("search",{p},function(rt){
+                $("#pdata").html(rt)
+            })
+        }
+
+        const countries = ()=>{
+            var options='<option value="0">---select country---</option>'
+            $.get("countries",{},function(rt){
+                rt.data.map(ele=>{
+                    options += `<option value=${ele.id}>${ele.name}</option>`
+                })
+                 $("#country").html(options)
+            })
+        }
+
+        const state = (cid)=>{
+            var options='<option value="0">---select state---</option>'
+            $.get("state",{cid},function(rt){
+                rt.data.map(ele=>{
+                    options += `<option value = ${ele.id}>${ele.name}</option>`
+                })
+                $("#state").html(options)
+            })
+        }
+
+        const city = (ccid)=>{
+            var options='<option value="0">---select City---</option>'
+            $.get("city",{ccid},function(rt){
+                rt.data.map(ele=>{
+                    options += `<option value = ${ele.id}>${ele.name}</option>`
+                })
+                $("#city").html(options)
+            })
+        }
+    </script>
+</head>
+
+<body class="bg-light">
+
+<div class="container py-5">
+
+    <h2 class="text-center mb-5 fw-bold">AJAX Demo</h2>
+
+    <!-- Section 1 -->
+    <div class="card shadow-sm p-4 mb-4">
+        <h5 class="mb-3">Test API</h5>
+
+        <div class="input-group">
+            <input type="text" name="uname" id="uname" class="form-control" placeholder="Enter your name">
+            <button class="btn btn-primary" onclick="test()">Submit</button>
+        </div>
+
+        <div id="tdata" class="mt-3 text-success fw-semibold"></div>
+    </div>
+
+    <!-- Section 2 -->
+    <div class="card shadow-sm p-4 mb-4">
+        <h5 class="mb-3">Live Product Search</h5>
+
+        <input type="text" 
+               placeholder="Enter Product name" 
+               id="search" 
+               name="search" 
+               class="form-control mb-3"
+               onkeyup="search(value)">
+
+        <div id="pdata" class="list-group"></div>
+    </div>
+
+    <!-- Section 3 -->
+    <div class="card shadow-sm p-4">
+        <h5 class="mb-3">Select Location</h5>
+
+        <div class="row g-3">
+            <div class="col-md-4">
+                <select name="country" id="country" class="form-select" onchange="state(value)"></select>
+            </div>
+
+            <div class="col-md-4">
+                <select name="state" id="state" class="form-select" onchange="city(value)"></select>
+            </div>
+
+            <div class="col-md-4">
+                <select name="city" id="city" class="form-select"></select>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

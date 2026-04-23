@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Student Management</title>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+<!-- SweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
+
+<style>
+    body {
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        min-height: 100vh;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .main-card {
+        border-radius: 20px;
+        background: #fff;
+    }
+
+    .form-control {
+        border-radius: 10px;
+    }
+
+    .btn {
+        border-radius: 10px;
+    }
+
+    .table thead {
+        background: #343a40;
+        color: white;
+    }
+
+    .table tbody tr:hover {
+        background: #f1f1f1;
+    }
+
+    .search-box {
+        border-radius: 30px;
+        padding-left: 15px;
+    }
+
+    .header-title {
+        font-weight: 700;
+        color: #333;
+    }
+</style>
+
+<script>
+$(document).ready(function(){
+    load()
+    $("#ubtn").hide()
+})
+const showToast = (message, type="success") => {
+    $("#toastText").text(message)
+
+    let toastEl = $("#toastMsg")
+
+    // change color dynamically
+    toastEl.removeClass("text-bg-success text-bg-danger text-bg-warning")
+    toastEl.addClass("text-bg-" + type)
+
+    let toast = new bootstrap.Toast(toastEl[0])
+    toast.show()
+}
+
+const load = () =>{
+    $.get("display",{},function(rt){
+        rows = ""
+        rt.student.map((ele,index) => {
+            rows += `<tr>
+                <td>${index + 1}</td>
+                <td>${ele.name}</td>
+                <td>${ele.email}</td>
+                <td>${ele.age}</td>
+                <td>${ele.course}</td>
+                <td>
+                    <button class="btn btn-warning btn-sm" onclick='edituser(${ele.id})'><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-danger btn-sm" onclick='deleteuser(${ele.id})'><i class="bi bi-trash"></i></button>
+                </td>
+            </tr>`
+        })
+        $("#tdata").html(rows)
+    })
+}
+
+const adduser = () =>{
+    var name = $("#name").val()
+    var email = $("#email").val()
+    var age = $("#age").val()
+    var course = $("#course").val()
+    var csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]').val()
+
+    $.post("adduser",{csrfmiddlewaretoken,name,email,age,course},function(rt){
+        showToast(rt, "success")
+        load()
+        $("#name,#email,#age,#course").val("")
+    })
+}
+
+const deleteuser = (id)=>{
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't recover this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        confirmButtonText: "Delete"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.get("deleteuser",{id},function(rt){
+                Swal.fire("Deleted!", "", "success")
+                // showToast(rt, "danger")
+                load()
+            })
+        }
+    })
+}
+
+const edituser = (id)=>{
+    $.get("edituser",{id},function(rt){
+        $("#id").val(rt.student[0].id)
+        $("#name").val(rt.student[0].name)
+        $("#email").val(rt.student[0].email)
+        $("#age").val(rt.student[0].age)
+        $("#course").val(rt.student[0].course)
+
+        $("#ubtn").show()
+        $("#sbtn").hide()
+    })
+}
+
+const updateuser = ()=>{
+    var id = $("#id").val()
+    var name = $("#name").val()
+    var email = $("#email").val()
+    var age = $("#age").val()
+    var course = $("#course").val()
+    var csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]').val()
+
+    $.post("updateuser",{id,csrfmiddlewaretoken,name,email,age,course},function(rt){
+        showToast(rt, "success")
+        load()
+        $("#id,#name,#email,#age,#course").val("")
+        $("#ubtn").hide()
+        $("#sbtn").show()
+    })
+}
+
+const search = (s)=>{
+    $.get("search",{s},function(rt){
+        rows = ""
+        rt.students.map((ele,index) => {
+            rows += `<tr>
+                <td>${index + 1}</td>
+                <td>${ele.name}</td>
+                <td>${ele.email}</td>
+                <td>${ele.age}</td>
+                <td>${ele.course}</td>
+                <td>
+                    <button class="btn btn-warning btn-sm" onclick='edituser(${ele.id})'><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-danger btn-sm" onclick='deleteuser(${ele.id})'><i class="bi bi-trash"></i></button>
+                </td>
+            </tr>`
+        })
+        $("#tdata").html(rows)
+    })
+}
+</script>
+
+</head>
+
+<body>
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+  <div id="toastMsg" class="toast align-items-center text-bg-success border-0" role="alert">
+    <div class="d-flex">
+      <div class="toast-body" id="toastText">
+        Success message
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+<div class="container py-5">
+
+    <!-- FORM -->
+    <div class="card main-card shadow p-4 mb-4">
+        <h3 class="text-center header-title mb-4">🎓 Student Management</h3>
+
+        {%csrf_token%}
+        <input type="hidden" id="id">
+
+        <div class="row g-3">
+            <div class="col-md-3">
+                <input type="text" class="form-control" placeholder="Name" id="name">
+            </div>
+            <div class="col-md-3">
+                <input type="email" class="form-control" placeholder="Email" id="email">
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" placeholder="Age" id="age">
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" placeholder="Course" id="course">
+            </div>
+            <div class="col-md-2 d-grid">
+                <button class="btn btn-primary" onclick="adduser()" id="sbtn">
+                    <i class="bi bi-person-plus"></i> Add
+                </button>
+                <button class="btn btn-success mt-2" onclick="updateuser()" id="ubtn">
+                    <i class="bi bi-check"></i> Update
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="card main-card shadow p-4">
+        <div class="d-flex justify-content-between mb-3">
+            <h5 class="header-title">📋 Student List</h5>
+            <input type="text" class="form-control w-25 search-box" placeholder="🔍 Search..." onkeyup="search(value)">
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover text-center align-middle">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Age</th>
+                        <th>Course</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="tdata"></tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
