@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Discover - SocialHub{% endblock %}
+
+{% block content %}
+<div class="animate-fade-in">
+    <div class="d-flex justify-content-between align-items-end mb-5">
+        <div>
+            <h1 class="fw-bold mb-1">Community</h1>
+            <p class="text-muted mb-0">Connect with users from around the globe.</p>
+        </div>
+        <div>
+            <span class="badge bg-white text-dark border px-3 py-2 rounded-pill shadow-sm">
+                {{ profiles.count }} Profiles Active
+            </span>
+        </div>
+    </div>
+
+    {% if profiles %}
+    <div class="row g-4">
+        {% for profile in profiles %}
+        <div class="col-md-6 col-lg-4">
+            <div class="glass-card p-4 h-100 d-flex flex-column">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="profile-avatar me-3">
+                        {{ profile.username|first|upper }}
+                    </div>
+                    <div>
+                        <h5 class="fw-bold mb-0 text-truncate" style="max-width: 150px;">{{ profile.username }}</h5>
+                        <p class="text-muted small mb-0">{{ profile.age }} years old</p>
+                    </div>
+                    <div class="ms-auto">
+                        {% if profile.is_public %}
+                        <span class="status-badge bg-success-subtle text-success">
+                            <i class="bi bi-globe me-1"></i> Public
+                        </span>
+                        {% else %}
+                        <span class="status-badge bg-secondary-subtle text-secondary">
+                            <i class="bi bi-lock-fill me-1"></i> Private
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <a href="{% url 'update_profile' profile.pk %}" class="text-secondary me-3" title="Edit">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <a href="{% url 'delete_profile' profile.pk %}" class="text-danger" title="Delete">
+                            <i class="bi bi-trash3"></i>
+                        </a>
+                    </div>
+                    <a href="{% url 'view_profile' profile.pk %}" class="btn btn-link text-decoration-none text-primary fw-600 p-0">
+                        View Profile <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="glass-card p-5 text-center">
+        <div class="mb-4">
+            <i class="bi bi-people text-muted" style="font-size: 4rem;"></i>
+        </div>
+        <h3 class="fw-bold">No one here yet</h3>
+        <p class="text-muted">Be the first to join our growing community!</p>
+        <a href="{% url 'create_profile' %}" class="btn btn-primary mt-3">Create Your Profile</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
