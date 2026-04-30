@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Doctor Finder</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body class="login-body">
+
+<div class="container d-flex justify-content-center align-items-center vh-100">
+
+    <div class="login-box">
+
+        <!-- Left Panel -->
+        <div class="login-left d-none d-md-flex">
+            <div>
+                <h2>Join Doctor Finder</h2>
+                <p>Connect with patients and doctors in one platform.</p>
+            </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="login-right">
+
+            <h3 class="text-center mb-4 fw-bold">Create Account</h3>
+
+            <!-- Messages -->
+            {% if err %}
+                <div class="alert alert-danger">{{err}}</div>
+            {% endif %}
+
+            {% if msg %}
+                <div class="alert alert-success">{{msg}}</div>
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+
+                <!-- Name Row -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="form-floating">
+                            <input type="text" name="fname" class="form-control" placeholder="First Name" required>
+                            <label>First Name</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <div class="form-floating">
+                            <input type="text" name="lname" class="form-control" placeholder="Last Name" required>
+                            <label>Last Name</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Username -->
+                <div class="form-floating mb-3">
+                    <input type="text" name="uname" class="form-control" placeholder="Username" required>
+                    <label>Username</label>
+                </div>
+
+                <!-- Password -->
+                <div class="form-floating mb-3">
+                    <input type="password" name="password" class="form-control" placeholder="Password" required>
+                    <label>Password</label>
+                </div>
+
+                
+                <!-- Submit -->
+                <button type="submit" class="btn login-btn w-100">Register</button>
+
+                <p class="text-center mt-3">
+                    Already registered? 
+                    <a href="{% url 'login' %}">Login</a>
+                </p>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

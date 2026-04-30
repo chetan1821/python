@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+/* Card */
+.doctor-card {
+    border-radius: 15px;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.doctor-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+}
+
+/* Image Wrapper */
+.doctor-img-wrapper {
+    height: 250px;
+    overflow: hidden;
+    background: #f8f9fa;
+}
+
+/* Image */
+.doctor-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.4s;
+    object-position: top;
+}
+
+/* Zoom Effect */
+.doctor-card:hover .doctor-img {
+    transform: scale(1.05);
+}
+
+/* Text spacing */
+.card-body p {
+    margin-bottom: 6px;
+}
+
+/* Button */
+.doctor-card .btn {
+    border-radius: 10px;
+    font-weight: 500;
+}
+</style>
+
+<div class="container py-4">
+
+    <h2 class="text-center mb-4 fw-bold">Our Doctors</h2>
+
+    <div class="row g-4">
+
+        {% for doctor in doctors %}
+        <div class="col-lg-4 col-md-6 col-sm-12">
+
+            <div class="card doctor-card h-100 shadow-sm">
+
+                <!-- Image -->
+                <div class="doctor-img-wrapper">
+                    {% if doctor.image %}
+                        <img src="{{ doctor.image.url }}" class="doctor-img">
+                    {% else %}
+                        <img src="{% static 'images/default.png' %}" class="doctor-img">
+                    {% endif %}
+                </div>
+
+                <!-- Content -->
+                <div class="card-body">
+
+                    <h5 class="fw-bold">{{ doctor.name }}</h5>
+                    <p class="text-primary">{{ doctor.specialization }}</p>
+
+                    <p><i class="fa-solid fa-briefcase text-secondary me-2"></i> {{ doctor.experience }} Years Experience</p>
+                    <p><i class="fa-solid fa-indian-rupee-sign text-success me-2"></i> {{ doctor.fees }}</p>
+                    <p class="text-warning"><i class="fa-solid fa-star me-2"></i> {{ doctor.rating }}</p>
+                    {% for slot in doctor.slots.all %}
+                        <p class="text-success">
+                            <i class="fa-solid fa-clock me-2"></i>
+                            {{ slot.day }}: {{ slot.start_time }} - {{ slot.end_time }}
+                        </p>
+                    {% empty %}
+                        <p class="text-danger">Not Available</p>
+                    {% endfor %}
+                    <p class="text-muted"><i class="fa-solid fa-location-dot me-2"></i> {{ doctor.location }}</p>
+
+                </div>
+
+                <!-- Footer -->
+                <div class="card-footer bg-white border-0">
+                    <button class="btn btn-primary w-100">
+                        Book Appointment
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

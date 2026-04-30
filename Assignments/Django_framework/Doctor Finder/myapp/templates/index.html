@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+
+/* HERO */
+.hero {
+    background: linear-gradient(135deg, #0d6efd, #6610f2);
+    color: white;
+    padding: 60px 20px;
+    border-radius: 20px;
+}
+
+/* Search */
+.search-box {
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* Stats */
+.stat-card {
+    border-radius: 15px;
+    padding: 20px;
+    color: white;
+}
+
+.card-blue { background: #0d6efd; }
+.card-green { background: #198754; }
+.card-orange { background: #fd7e14; }
+
+/* Doctor Card */
+.doc-card {
+    border-radius: 15px;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.doc-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+/* Image */
+.doc-img-wrapper {
+    height: 220px;
+    overflow: hidden;
+    background: #f8f9fa;
+}
+
+.doc-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    transition: 0.4s;
+}
+
+.doc-card:hover .doc-img {
+    transform: scale(1.05);
+}
+
+/* Feature */
+.feature-box {
+    text-align: center;
+    padding: 20px;
+}
+
+.feature-box i {
+    font-size: 30px;
+    color: #0d6efd;
+    margin-bottom: 10px;
+}
+
+/* Button */
+.doc-card .btn {
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+</style>
+
+<!-- HERO -->
+<div class="hero mb-5 text-center">
+
+    <h1 class="fw-bold">Find the Best Doctors Near You</h1>
+    <p>Book appointments with trusted specialists easily</p>
+
+    <div class="search-box mt-4">
+        <form>
+            <div class="row g-2">
+                <div class="col-md-5">
+                    <input type="text" class="form-control" placeholder="Search Doctor...">
+                </div>
+                <div class="col-md-5">
+                    <input type="text" class="form-control" placeholder="Location">
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary w-100">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<!-- STATS -->
+<div class="row text-center mb-5">
+
+    <div class="col-md-4">
+        <div class="stat-card card-blue">
+            <h3>120+</h3>
+            <p>Doctors</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="stat-card card-green">
+            <h3>500+</h3>
+            <p>Patients</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="stat-card card-orange">
+            <h3>300+</h3>
+            <p>Appointments</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- TOP DOCTORS -->
+<h3 class="mb-4 fw-bold">Top Doctors</h3>
+
+<div class="row g-4">
+
+    {% for doctor in doctors|slice:":6" %}
+    <div class="col-lg-4 col-md-6">
+
+        <div class="card doc-card shadow-sm h-100">
+
+            <!-- Image -->
+            <div class="doc-img-wrapper">
+                {% if doctor.image %}
+                    <img src="{{ doctor.image.url }}" class="doc-img">
+                {% else %}
+                    <img src="{% static 'images/default.png' %}" class="doc-img">
+                {% endif %}
+            </div>
+
+            <!-- Content -->
+            <div class="card-body">
+
+                <h5 class="fw-bold mb-1">{{ doctor.name }}</h5>
+
+                <span class="badge bg-primary mb-2">
+                    {{ doctor.specialization }}
+                </span>
+
+                <p class="text-muted mb-1">
+                    <i class="fa-solid fa-location-dot me-1"></i>
+                    {{ doctor.location }}
+                </p>
+
+                <p class="text-warning mb-2">
+                    <i class="fa-solid fa-star"></i> {{ doctor.rating }}
+                </p>
+
+            </div>
+
+            <!-- Button -->
+            <div class="card-footer bg-white border-0">
+                <button class="btn btn-primary w-100">
+                    Book Appointment
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+    {% endfor %}
+
+</div>
+
+<!-- FEATURES -->
+<h3 class="mt-5 mb-4 fw-bold text-center">Why Choose Us</h3>
+
+<div class="row">
+
+    <div class="col-md-4">
+        <div class="feature-box">
+            <i class="fa fa-user-md"></i>
+            <h5>Qualified Doctors</h5>
+            <p>Experienced and certified professionals</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="feature-box">
+            <i class="fa fa-clock"></i>
+            <h5>Easy Booking</h5>
+            <p>Book appointments in seconds</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="feature-box">
+            <i class="fa fa-heart"></i>
+            <h5>Trusted Service</h5>
+            <p>Thousands of happy patients</p>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
