@@ -3,3 +3,4 @@ from myapp.models import *
 # Register your models here.
 admin.site.register(Doctor)
 admin.site.register(Availability)
+admin.site.register(Contact)

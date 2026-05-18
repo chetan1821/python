@@ -21,3 +21,12 @@ class Availability(models.Model):
 
     def __str__(self):
         return f"{self.doctor.name} - {self.day}"
+    
+class Contact(models.Model):
+    name=models.CharField(max_length=30)
+    email=models.CharField(max_length=30)
+    subject=models.CharField(max_length=50)
+    msg=models.CharField(max_length=500)
+
+    def __str__(self):
+        return self.name

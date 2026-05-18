@@ -3,218 +3,437 @@
 
 {% block content %}
 
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet">
 
 <style>
 
+/* BODY */
+body{
+    background:#f4f7fc;
+    font-family: 'Segoe UI', sans-serif;
+}
+
 /* HERO */
-.hero {
-    background: linear-gradient(135deg, #0d6efd, #6610f2);
-    color: white;
-    padding: 60px 20px;
-    border-radius: 20px;
+.hero-section{
+    background:linear-gradient(135deg,#0f172a,#1e3a8a);
+    color:white;
+    border-radius:30px;
+    padding:80px 50px;
+    overflow:hidden;
+    position:relative;
 }
 
-/* Search */
-.search-box {
-    background: white;
-    padding: 10px;
-    border-radius: 10px;
+.hero-section::before{
+    content:"";
+    position:absolute;
+    width:300px;
+    height:300px;
+    background:rgba(255,255,255,0.05);
+    border-radius:50%;
+    top:-80px;
+    right:-80px;
 }
 
-/* Stats */
-.stat-card {
-    border-radius: 15px;
-    padding: 20px;
-    color: white;
+.hero-title{
+    font-size:52px;
+    font-weight:800;
+    line-height:1.2;
 }
 
-.card-blue { background: #0d6efd; }
-.card-green { background: #198754; }
-.card-orange { background: #fd7e14; }
-
-/* Doctor Card */
-.doc-card {
-    border-radius: 15px;
-    overflow: hidden;
-    transition: 0.3s;
+.hero-text{
+    font-size:18px;
+    opacity:0.9;
+    margin-top:20px;
 }
 
-.doc-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+/* HERO BUTTON */
+.hero-btn{
+    margin-top:30px;
+    padding:14px 28px;
+    border-radius:14px;
+    font-weight:600;
+    background:white;
+    color:#1e3a8a;
+    border:none;
+    transition:0.3s;
 }
 
-/* Image */
-.doc-img-wrapper {
-    height: 220px;
-    overflow: hidden;
-    background: #f8f9fa;
+.hero-btn:hover{
+    background:#dbeafe;
 }
 
-.doc-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    transition: 0.4s;
+/* SECTION TITLE */
+.section-title{
+    font-weight:700;
+    color:#0f172a;
 }
 
-.doc-card:hover .doc-img {
-    transform: scale(1.05);
+/* STAT CARDS */
+.stat-card{
+    background:white;
+    border-radius:20px;
+    padding:30px;
+    text-align:center;
+    box-shadow:0 10px 25px rgba(0,0,0,0.05);
+    transition:0.3s;
 }
 
-/* Feature */
-.feature-box {
-    text-align: center;
-    padding: 20px;
+.stat-card:hover{
+    transform:translateY(-5px);
 }
 
-.feature-box i {
-    font-size: 30px;
-    color: #0d6efd;
-    margin-bottom: 10px;
+.stat-icon{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:auto;
+    margin-bottom:15px;
+    font-size:28px;
+    color:white;
 }
 
-/* Button */
-.doc-card .btn {
-    border-radius: 10px;
-    font-weight: 600;
+.bg-blue{
+    background:#2563eb;
+}
+
+.bg-green{
+    background:#16a34a;
+}
+
+.bg-orange{
+    background:#ea580c;
+}
+
+/* DOCTOR CARD */
+.doctor-card{
+    border:none;
+    border-radius:22px;
+    overflow:hidden;
+    transition:0.3s;
+    background:#fff;
+}
+
+.doctor-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 18px 40px rgba(0,0,0,0.12);
+}
+
+/* IMAGE */
+.doctor-img-wrapper{
+    height:260px;
+    overflow:hidden;
+    background:#e2e8f0;
+}
+
+.doctor-img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:top;
+    transition:0.4s;
+}
+
+.doctor-card:hover .doctor-img{
+    transform:scale(1.05);
+}
+
+/* CARD BODY */
+.doctor-name{
+    font-size:22px;
+    font-weight:700;
+    color:#0f172a;
+}
+
+.specialization{
+    color:#2563eb;
+    font-weight:600;
+}
+
+/* FEATURE */
+.feature-card{
+    background:white;
+    border-radius:20px;
+    padding:35px 25px;
+    text-align:center;
+    box-shadow:0 10px 25px rgba(0,0,0,0.05);
+    transition:0.3s;
+    height:100%;
+}
+
+.feature-card:hover{
+    transform:translateY(-5px);
+}
+
+.feature-icon{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    background:#dbeafe;
+    color:#2563eb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:auto;
+    margin-bottom:20px;
+    font-size:30px;
+}
+
+/* BUTTON */
+.book-btn{
+    border-radius:12px;
+    padding:12px;
+    font-weight:600;
 }
 
 </style>
 
-<!-- HERO -->
-<div class="hero mb-5 text-center">
+<div class="container py-5">
 
-    <h1 class="fw-bold">Find the Best Doctors Near You</h1>
-    <p>Book appointments with trusted specialists easily</p>
+    <!-- HERO -->
+    <div class="hero-section mb-5">
 
-    <div class="search-box mt-4">
-        <form>
-            <div class="row g-2">
-                <div class="col-md-5">
-                    <input type="text" class="form-control" placeholder="Search Doctor...">
-                </div>
-                <div class="col-md-5">
-                    <input type="text" class="form-control" placeholder="Location">
-                </div>
-                <div class="col-md-2">
-                    <button class="btn btn-primary w-100">Search</button>
-                </div>
-            </div>
-        </form>
-    </div>
+        <div class="row align-items-center">
 
-</div>
+            <div class="col-lg-7">
 
-<!-- STATS -->
-<div class="row text-center mb-5">
+                <h1 class="hero-title">
+                    Your Trusted Healthcare Partner
+                </h1>
 
-    <div class="col-md-4">
-        <div class="stat-card card-blue">
-            <h3>120+</h3>
-            <p>Doctors</p>
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="stat-card card-green">
-            <h3>500+</h3>
-            <p>Patients</p>
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="stat-card card-orange">
-            <h3>300+</h3>
-            <p>Appointments</p>
-        </div>
-    </div>
-
-</div>
-
-<!-- TOP DOCTORS -->
-<h3 class="mb-4 fw-bold">Top Doctors</h3>
-
-<div class="row g-4">
-
-    {% for doctor in doctors|slice:":6" %}
-    <div class="col-lg-4 col-md-6">
-
-        <div class="card doc-card shadow-sm h-100">
-
-            <!-- Image -->
-            <div class="doc-img-wrapper">
-                {% if doctor.image %}
-                    <img src="{{ doctor.image.url }}" class="doc-img">
-                {% else %}
-                    <img src="{% static 'images/default.png' %}" class="doc-img">
-                {% endif %}
-            </div>
-
-            <!-- Content -->
-            <div class="card-body">
-
-                <h5 class="fw-bold mb-1">{{ doctor.name }}</h5>
-
-                <span class="badge bg-primary mb-2">
-                    {{ doctor.specialization }}
-                </span>
-
-                <p class="text-muted mb-1">
-                    <i class="fa-solid fa-location-dot me-1"></i>
-                    {{ doctor.location }}
+                <p class="hero-text">
+                    Connect with experienced doctors and get quality healthcare services with ease and confidence.
                 </p>
 
-                <p class="text-warning mb-2">
-                    <i class="fa-solid fa-star"></i> {{ doctor.rating }}
-                </p>
-
-            </div>
-
-            <!-- Button -->
-            <div class="card-footer bg-white border-0">
-                <button class="btn btn-primary w-100">
-                    Book Appointment
+                <button class="hero-btn">
+                    Explore Doctors
                 </button>
+
+            </div>
+
+            <div class="col-lg-5 text-center">
+
+                <img src="{% static 'images/heroDr.jpg' %}"
+                     class="img-fluid rounded-circle"
+                     style="width:350px;
+            height:350px;
+            object-fit:cover;">
+
             </div>
 
         </div>
 
     </div>
-    {% endfor %}
 
-</div>
+    <!-- STATS -->
+    <div class="row g-4 mb-5">
 
-<!-- FEATURES -->
-<h3 class="mt-5 mb-4 fw-bold text-center">Why Choose Us</h3>
+        <div class="col-md-4">
 
-<div class="row">
+            <div class="stat-card">
 
-    <div class="col-md-4">
-        <div class="feature-box">
-            <i class="fa fa-user-md"></i>
-            <h5>Qualified Doctors</h5>
-            <p>Experienced and certified professionals</p>
+                <div class="stat-icon bg-blue">
+                    <i class="fa-solid fa-user-doctor"></i>
+                </div>
+
+                <h2 class="fw-bold">120+</h2>
+
+                <p class="text-muted mb-0">
+                    Experienced Doctors
+                </p>
+
+            </div>
+
         </div>
+
+        <div class="col-md-4">
+
+            <div class="stat-card">
+
+                <div class="stat-icon bg-green">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                </div>
+
+                <h2 class="fw-bold">500+</h2>
+
+                <p class="text-muted mb-0">
+                    Happy Patients
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="stat-card">
+
+                <div class="stat-icon bg-orange">
+                    <i class="fa-solid fa-calendar-check"></i>
+                </div>
+
+                <h2 class="fw-bold">300+</h2>
+
+                <p class="text-muted mb-0">
+                    Successful Appointments
+                </p>
+
+            </div>
+
+        </div>
+
     </div>
 
-    <div class="col-md-4">
-        <div class="feature-box">
-            <i class="fa fa-clock"></i>
-            <h5>Easy Booking</h5>
-            <p>Book appointments in seconds</p>
-        </div>
+    <!-- DOCTORS -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2 class="section-title">
+            Our Specialists
+        </h2>
+
     </div>
 
-    <div class="col-md-4">
-        <div class="feature-box">
-            <i class="fa fa-heart"></i>
-            <h5>Trusted Service</h5>
-            <p>Thousands of happy patients</p>
+    <div class="row g-4">
+
+        {% for doctor in doctors|slice:":6" %}
+
+        <div class="col-lg-4 col-md-6">
+
+            <div class="card doctor-card h-100">
+
+                <!-- IMAGE -->
+                <div class="doctor-img-wrapper">
+
+                    {% if doctor.image %}
+
+                        <img src="{{ doctor.image.url }}"
+                             class="doctor-img">
+
+                    {% else %}
+
+                        <img src="{% static 'images/default.png' %}"
+                             class="doctor-img">
+
+                    {% endif %}
+
+                </div>
+
+                <!-- BODY -->
+                <div class="card-body">
+
+                    <h4 class="doctor-name">
+                        {{ doctor.name }}
+                    </h4>
+
+                    <p class="specialization">
+                        {{ doctor.specialization }}
+                    </p>
+
+                    <p class="text-muted mb-2">
+                        <i class="fa-solid fa-location-dot me-2 text-danger"></i>
+                        {{ doctor.location }}
+                    </p>
+
+                    <p class="text-warning">
+                        <i class="fa-solid fa-star"></i>
+                        {{ doctor.rating }}
+                    </p>
+
+                </div>
+
+                <!-- FOOTER -->
+                <div class="card-footer border-0 bg-white">
+
+                    <button class="btn btn-primary w-100 book-btn">
+
+                        Book Appointment
+
+                    </button>
+
+                </div>
+
+            </div>
+
         </div>
+
+        {% endfor %}
+
+    </div>
+
+    <!-- FEATURES -->
+    <div class="mt-5 pt-5">
+
+        <h2 class="section-title text-center mb-5">
+            Why Patients Trust Us
+        </h2>
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-user-doctor"></i>
+                    </div>
+
+                    <h5 class="fw-bold">
+                        Certified Specialists
+                    </h5>
+
+                    <p class="text-muted">
+                        Highly qualified and experienced medical professionals.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+
+                    <h5 class="fw-bold">
+                        Quick Appointment
+                    </h5>
+
+                    <p class="text-muted">
+                        Fast and simple appointment booking system.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-shield-heart"></i>
+                    </div>
+
+                    <h5 class="fw-bold">
+                        Trusted Care
+                    </h5>
+
+                    <p class="text-muted">
+                        Thousands of patients trust our healthcare services.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
 </div>
